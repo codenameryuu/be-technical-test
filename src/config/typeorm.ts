@@ -1,25 +1,16 @@
-import { registerAs } from "@nestjs/config";
-import { config as dotenvConfig } from "dotenv";
-import { DataSource, DataSourceOptions } from "typeorm";
+import env from "./env";
 
-dotenvConfig({
-  path: ".env",
-});
-
-const config = {
-  type: process.env.DB_CONNECTION as any,
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT),
-  username: process.env.DB_USERNAME,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_DATABASE,
+export default {
+  type: env.database.type,
+  host: env.database.host,
+  port: env.database.port,
+  username: env.database.username,
+  password: env.database.password,
+  database: env.database.name,
   synchronize: false,
   logging: false,
   autoLoadEntities: true,
-  entities: [__dirname + "/../entities/*.entity.ts"],
+  entities: [__dirname + ""],
   migrations: [__dirname + "/../database/migrations/*.ts"],
   subscribers: [],
 };
-
-export default registerAs("typeorm", () => config);
-export const connectionSource = new DataSource(config as DataSourceOptions);

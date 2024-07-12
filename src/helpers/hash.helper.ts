@@ -1,9 +1,6 @@
 import Hashids from "hashids";
-import { config as dotenvConfig } from "dotenv";
 
-dotenvConfig({
-  path: ".env",
-});
+import env from "../config/env";
 
 export default class HashHelper {
   /**
@@ -13,7 +10,7 @@ export default class HashHelper {
    * @returns string
    */
   public static encode = (value: any) => {
-    const hashids = new Hashids("", parseInt(process.env.HASH_LENGTH), process.env.HASH_ALPHABET);
+    const hashids = new Hashids("", env.hash.length, env.hash.alphabet);
     return hashids.encode(value);
   };
 
@@ -24,7 +21,7 @@ export default class HashHelper {
    * @returns string
    */
   public static decode = (value: any) => {
-    const hashids = new Hashids("", parseInt(process.env.HASH_LENGTH), process.env.HASH_ALPHABET);
+    const hashids = new Hashids("", env.hash.length, env.hash.alphabet);
     let decode = [];
 
     try {

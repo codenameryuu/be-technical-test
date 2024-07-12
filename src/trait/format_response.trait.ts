@@ -6,7 +6,6 @@ export class FormatResponse {
     let result: any = {
       status: request.status,
       message: request.message,
-      data: null,
     };
 
     if (request.data) {

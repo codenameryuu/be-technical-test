@@ -14,6 +14,7 @@ export class MemberService {
     let message = MessageHelper.retrieveSuccess();
 
     const data = await this.dataSource.getRepository(Member).find({
+      relations: ["loans"],
       order: {
         name: "ASC",
       },

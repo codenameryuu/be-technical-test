@@ -1,4 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, AfterLoad } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, AfterLoad, OneToMany, JoinColumn } from "typeorm";
+
+import { Loan } from "./loan.entity";
 
 import HashHelper from "../helpers/hash.helper";
 
@@ -11,6 +13,14 @@ export class Member {
   })
   id: number;
   hash_id: string;
+
+  @OneToMany(() => Loan, (loan) => loan.member)
+  @JoinColumn({
+    name: "member_id",
+    referencedColumnName: "id",
+    foreignKeyConstraintName: "fk_member_id",
+  })
+  loans: Loan[];
 
   @Column({
     name: "code",

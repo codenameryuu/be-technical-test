@@ -4,6 +4,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { MemoryStoredFile, NestjsFormDataModule } from "nestjs-form-data";
 import { DataSource } from "typeorm";
 
+import { ExampleModule } from "./apps/example/example.module";
 import { MemberModule } from "./apps/member/member.module";
 
 import typeorm from "./config/typeorm";
@@ -13,18 +14,15 @@ import typeorm from "./config/typeorm";
     ConfigModule.forRoot({
       envFilePath: ".env",
       isGlobal: true,
-      load: [typeorm],
     }),
 
     NestjsFormDataModule.config({
       storage: MemoryStoredFile,
     }),
 
-    TypeOrmModule.forRootAsync({
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => configService.get("typeorm"),
-    }),
+    TypeOrmModule.forRoot(typeorm),
 
+    ExampleModule,
     MemberModule,
   ],
   controllers: [],

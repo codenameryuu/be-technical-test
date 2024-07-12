@@ -15,7 +15,7 @@ export class Loan {
   id: number;
   hash_id: string;
 
-  @ManyToOne(() => Member, (data) => data, { eager: true })
+  @ManyToOne(() => Member, (member) => member, { eager: true })
   @JoinColumn({
     name: "member_id",
     referencedColumnName: "id",
@@ -23,7 +23,7 @@ export class Loan {
   })
   member: Member;
 
-  @ManyToOne(() => Book, (data) => data, { eager: true })
+  @ManyToOne(() => Book, (book) => book, { eager: true })
   @JoinColumn({
     name: "book_id",
     referencedColumnName: "id",
