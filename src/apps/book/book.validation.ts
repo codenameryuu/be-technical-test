@@ -3,8 +3,8 @@ import { Injectable } from "@nestjs/common";
 import MessageHelper from "../../helpers/message.helper";
 
 @Injectable()
-export class ExampleValidation {
-  async example(): Promise<any> {
+export class BookValidation {
+  async index(): Promise<any> {
     let status = true;
     let message = MessageHelper.validateSuccess();
 

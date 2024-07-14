@@ -1,8 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, AfterLoad, OneToMany, JoinColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, OneToMany, JoinColumn } from "typeorm";
 
 import { Loan } from "./loan.entity";
-
-import HashHelper from "../helpers/hash.helper";
 
 @Entity({
   name: "members",
@@ -12,7 +10,6 @@ export class Member {
     name: "id",
   })
   id: number;
-  hash_id: string;
 
   @OneToMany(() => Loan, (loan) => loan.member)
   @JoinColumn({
@@ -48,9 +45,4 @@ export class Member {
     name: "updated_at",
   })
   updated_at: Date;
-
-  @AfterLoad()
-  generateHashId(): void {
-    this.hash_id = HashHelper.encode(this.id);
-  }
 }

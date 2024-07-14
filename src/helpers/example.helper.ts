@@ -73,7 +73,21 @@ export default class ExampleHelper {
       {
         member_id: 1,
         book_id: 1,
-        loan_date: DateTime.now().toFormat("yyyy-LL-dd HH:mm:ss"),
+        loan_date: DateTime.now()
+          .minus({
+            days: 10,
+          })
+          .toFormat("yyyy-LL-dd"),
+      },
+
+      {
+        member_id: 1,
+        book_id: 2,
+        loan_date: DateTime.now()
+          .minus({
+            days: 10,
+          })
+          .toFormat("yyyy-LL-dd"),
       },
     ];
   };

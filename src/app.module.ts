@@ -1,13 +1,14 @@
-import { Module } from "@nestjs/common";
+import { MiddlewareConsumer, Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { MemoryStoredFile, NestjsFormDataModule } from "nestjs-form-data";
 import { DataSource } from "typeorm";
 
+import { BookModule } from "./apps/book/book.module";
 import { ExampleModule } from "./apps/example/example.module";
 import { MemberModule } from "./apps/member/member.module";
 
-import typeorm from "./config/typeorm";
+import { configModule } from "./config/typeorm";
 
 @Module({
   imports: [
@@ -20,8 +21,9 @@ import typeorm from "./config/typeorm";
       storage: MemoryStoredFile,
     }),
 
-    TypeOrmModule.forRoot(typeorm),
+    TypeOrmModule.forRoot(configModule),
 
+    BookModule,
     ExampleModule,
     MemberModule,
   ],

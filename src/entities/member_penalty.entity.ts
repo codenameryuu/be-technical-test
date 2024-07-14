@@ -1,12 +1,11 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, ManyToOne, JoinColumn } from "typeorm";
 
-import { Book } from "./book.entity";
 import { Member } from "./member.entity";
 
 @Entity({
-  name: "loans",
+  name: "member_penalties",
 })
-export class Loan {
+export class MemberPenalty {
   @PrimaryGeneratedColumn({
     name: "id",
   })
@@ -20,24 +19,10 @@ export class Loan {
   })
   member: Member;
 
-  @ManyToOne(() => Book, (book) => book, { eager: true })
-  @JoinColumn({
-    name: "book_id",
-    referencedColumnName: "id",
-    foreignKeyConstraintName: "fk_book_id",
-  })
-  book: Book;
-
   @Column({
-    name: "loan_date",
+    name: "penalty_date",
   })
-  loan_date: Date;
-
-  @Column({
-    name: "return_date",
-    nullable: true,
-  })
-  return_date?: Date;
+  penalty_date: Date;
 
   @DeleteDateColumn({
     name: "deleted_at",

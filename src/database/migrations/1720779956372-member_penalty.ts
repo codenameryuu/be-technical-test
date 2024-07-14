@@ -1,10 +1,10 @@
-import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey, TableIndex } from "typeorm";
+import { MigrationInterface, QueryRunner, Table, TableColumn, TableForeignKey } from "typeorm";
 
-export class Loans1720693135484 implements MigrationInterface {
+export class MemberPenalty1720779956372 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(
       new Table({
-        name: "loans",
+        name: "member_penalties",
         columns: [
           new TableColumn({
             name: "id",
@@ -21,20 +21,8 @@ export class Loans1720693135484 implements MigrationInterface {
           }),
 
           new TableColumn({
-            name: "book_id",
-            type: "bigint",
-            isNullable: true,
-          }),
-
-          new TableColumn({
-            name: "loan_date",
+            name: "penalty_date",
             type: "date",
-          }),
-
-          new TableColumn({
-            name: "return_date",
-            type: "date",
-            isNullable: true,
           }),
 
           new TableColumn({
@@ -61,7 +49,7 @@ export class Loans1720693135484 implements MigrationInterface {
     );
 
     await queryRunner.createForeignKey(
-      "loans",
+      "member_penalties",
       new TableForeignKey({
         columnNames: ["member_id"],
         referencedColumnNames: ["id"],
@@ -69,24 +57,12 @@ export class Loans1720693135484 implements MigrationInterface {
         onDelete: "CASCADE",
       })
     );
-
-    await queryRunner.createForeignKey(
-      "loans",
-      new TableForeignKey({
-        columnNames: ["book_id"],
-        referencedColumnNames: ["id"],
-        referencedTableName: "books",
-        onDelete: "CASCADE",
-      })
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
-    const table = await queryRunner.getTable("loans");
+    const table = await queryRunner.getTable("member_penalties");
     const foreignKeyMember = table.foreignKeys.find((fk) => fk.columnNames.indexOf("member_id") !== -1);
-    const foreignKeyBook = table.foreignKeys.find((fk) => fk.columnNames.indexOf("book_id") !== -1);
-    await queryRunner.dropForeignKey("loans", foreignKeyMember);
-    await queryRunner.dropForeignKey("loans", foreignKeyBook);
-    await queryRunner.dropTable("loans");
+    await queryRunner.dropForeignKey("member_penalties", foreignKeyMember);
+    await queryRunner.dropTable("member_penalties");
   }
 }
