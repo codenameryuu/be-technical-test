@@ -1,6 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { DateTime } from "luxon";
-import { DataSource } from "typeorm";
+import { DataSource, IsNull } from "typeorm";
 
 import { BorrowBookDto } from "./dto/borrow_book.dto";
 import { ReturnBookDto } from "./dto/return_book.dto";
@@ -23,9 +23,9 @@ export class MemberService {
     const data = await this.dataSource
       .getRepository(Member)
       .createQueryBuilder("member")
-      .leftJoin("member.loans", "loan", "loan.return_datetime IS NULL")
+      .leftJoin("member.loans", "loan", "loan.return_date IS NULL")
       .loadRelationCountAndMap("member.loan_book", "member.loans", "loan", (query) => {
-        return query.andWhere("loan.return_datetime IS NULL");
+        return query.andWhere("loan.return_date IS NULL");
       })
       .orderBy("member.name", "ASC")
       .getMany();
@@ -118,7 +118,7 @@ export class MemberService {
           id: request.book_id,
         },
 
-        return_date: null,
+        return_date: IsNull(),
       },
 
       order: {

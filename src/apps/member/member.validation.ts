@@ -36,11 +36,11 @@ export class MemberValidation {
     let errorField = null;
 
     const schema = Joi.object({
-      member_id: Joi.string()
+      member_id: Joi.number()
         .required()
         .messages({
-          "string.base": "ID anggota harus berupa string !",
-          "string.empty": "ID anggota tidak boleh kosong !",
+          "number.base": "ID anggota harus berupa angka !",
+          "number.empty": "ID anggota tidak boleh kosong !",
           "any.required": "ID anggota tidak boleh kosong !",
         })
         .external(async (value) => {
@@ -55,11 +55,11 @@ export class MemberValidation {
           return true;
         }),
 
-      book_id: Joi.string()
+      book_id: Joi.number()
         .required()
         .messages({
-          "string.base": "ID buku harus berupa string !",
-          "string.empty": "ID buku tidak boleh kosong !",
+          "number.base": "ID buku harus berupa angka !",
+          "number.empty": "ID buku tidak boleh kosong !",
           "any.required": "ID buku tidak boleh kosong !",
         })
         .external(async (value) => {
@@ -83,14 +83,25 @@ export class MemberValidation {
     try {
       await schema.validateAsync(data);
 
+      // * Cek apakah stok buku tersedia
+      const countBook = await this.dataSource.getRepository(Book).countBy({
+        id: request.book_id,
+      });
+
+      if (countBook == 0) {
+        JoiHelper.errorMessage("book_id", "Stok buku tidak tersedia !", request.book_id);
+      }
+
       // * Cek apakah anggota sudah meminjam lebih dari 2 buku
       const countLoan = await this.dataSource.getRepository(Loan).countBy({
         member: {
           id: request.member_id,
         },
+
+        return_date: IsNull(),
       });
 
-      if (countLoan > 1) {
+      if (countLoan == 2) {
         JoiHelper.errorMessage("member_id", "Anggota sudah meminjam 2 buku !", request.member_id);
       }
 
@@ -101,7 +112,7 @@ export class MemberValidation {
             id: request.book_id,
           },
 
-          return_date: null,
+          return_date: IsNull(),
         },
       });
 
@@ -155,11 +166,11 @@ export class MemberValidation {
     let errorField = null;
 
     const schema = Joi.object({
-      member_id: Joi.string()
+      member_id: Joi.number()
         .required()
         .messages({
-          "string.base": "ID anggota harus berupa string !",
-          "string.empty": "ID anggota tidak boleh kosong !",
+          "number.base": "ID anggota harus berupa angka !",
+          "number.empty": "ID anggota tidak boleh kosong !",
           "any.required": "ID anggota tidak boleh kosong !",
         })
         .external(async (value) => {
@@ -174,11 +185,11 @@ export class MemberValidation {
           return true;
         }),
 
-      book_id: Joi.string()
+      book_id: Joi.number()
         .required()
         .messages({
-          "string.base": "ID buku harus berupa string !",
-          "string.empty": "ID buku tidak boleh kosong !",
+          "number.base": "ID buku harus berupa angka !",
+          "number.empty": "ID buku tidak boleh kosong !",
           "any.required": "ID buku tidak boleh kosong !",
         })
         .external(async (value) => {

@@ -17,7 +17,7 @@ export class BookService {
       .getRepository(Book)
       .createQueryBuilder("book")
       .leftJoin("book.loans", "loans")
-      .where("loans.return_datetime IS NULL")
+      .where("loans.return_date IS NULL")
       .getMany();
 
     let result = {
