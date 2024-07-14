@@ -1,0 +1,165 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Technical Test API",
+    "version": "1.0",
+    "contact": {
+      "name": "Muhammad Fikri Sabriansyah"
+    }
+  },
+  "tags": [{
+      "name": "Example"
+    },
+    {
+      "name": "Book"
+    },
+    {
+      "name": "Member"
+    }
+  ],
+  "servers": [{
+    "url": "http://localhost:8000"
+  }],
+  "paths": {
+    "/api/example": {
+      "post": {
+        "tags": [
+          "Example"
+        ],
+        "description": "Generate example data",
+        "summary": "Generate example data",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/api/book": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "Get all books",
+        "summary": "Get all books",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/api/member": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "description": "Get all members",
+        "summary": "Get all members",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/api/member/borrow-book": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "description": "Borrow book",
+        "summary": "Borrow book",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member_id": {
+                    "type": "string",
+                    "example": "1",
+                    "description": "Member ID"
+                  },
+                  "book_id": {
+                    "type": "string",
+                    "example": "1",
+                    "description": "Book ID"
+                  }
+                },
+                "required": [
+                  "member_id",
+                  "book_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Error"
+          }
+        }
+      }
+    },
+    "/api/member/return-book": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "description": "Return book",
+        "summary": "Return book",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member_id": {
+                    "type": "string",
+                    "example": "1",
+                    "description": "Member ID"
+                  },
+                  "book_id": {
+                    "type": "string",
+                    "example": "1",
+                    "description": "Book ID"
+                  }
+                },
+                "required": [
+                  "member_id",
+                  "book_id"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "422": {
+            "description": "Error"
+          }
+        }
+      }
+    }
+  }
+}
